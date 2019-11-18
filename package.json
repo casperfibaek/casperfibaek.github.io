@@ -2,6 +2,7 @@
   "name": "react-tut",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://marl.io/build/",
   "dependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
