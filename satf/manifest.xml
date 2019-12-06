@@ -11,6 +11,7 @@
   <SupportUrl DefaultValue="https://www.niras.com"/>
   <AppDomains>
     <AppDomain>https://marl.io</AppDomain>
+    <AppDomain>https://api.marl.io</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Workbook"/>
@@ -277,7 +278,7 @@
       <bt:Images>
         <bt:Image id="Icon.16x16" DefaultValue="https://marl.io/satf/assets/icon-16.png"/>
         <bt:Image id="Icon.32x32" DefaultValue="https://marl.io/satf/assets/icons/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://marl.io/satf/assets/icons/icons/icon-80.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://marl.io/satf/assets/icons/icon-80.png"/>
         <bt:Image id="Icon.Mastercard.16x16" DefaultValue="https://marl.io/satf/assets/icons/mastercard_16x16.png"/>
         <bt:Image id="Icon.Mastercard.20x20" DefaultValue="https://marl.io/satf/assets/icons/mastercard_20x20.png"/>
         <bt:Image id="Icon.Mastercard.24x24" DefaultValue="https://marl.io/satf/assets/icons/mastercard_24x24.png"/>

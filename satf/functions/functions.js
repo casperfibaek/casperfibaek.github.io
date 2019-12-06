@@ -109,7 +109,7 @@ function isValidWhatFreeWords(str) {
 
 function LatLngToWhatFreeWords(latitude, longitude) {
   return new Promise((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/latlng_to_whatfreewords?lat=${latitude}&lng=${longitude}`)
+    makeRequest('get', `https://api.marl.io/satf/latlng_to_whatfreewords?lat=${latitude}&lng=${longitude}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   });
@@ -117,7 +117,7 @@ function LatLngToWhatFreeWords(latitude, longitude) {
 
 function What3WordsToLatLng(words) {
   return new Promise((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/whatfreewords_to_latlng?words=${words}`)
+    makeRequest('get', `https://api.marl.io/satf/whatfreewords_to_latlng?words=${words}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   });
@@ -125,7 +125,7 @@ function What3WordsToLatLng(words) {
 
 function LatLngToPluscode(latitude, longitude) {
   return new Promise((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/latlng_to_pluscode?lat=${latitude}&lng=${longitude}`)
+    makeRequest('get', `https://api.marl.io/satf/latlng_to_pluscode?lat=${latitude}&lng=${longitude}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   });
@@ -133,7 +133,7 @@ function LatLngToPluscode(latitude, longitude) {
 
 function PlusCodeToLatLng(code) {
   return new Promise((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/pluscode_to_latlng?code=${code}`)
+    makeRequest('get', `https://api.marl.io/satf/pluscode_to_latlng?code=${code}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   });
@@ -181,7 +181,7 @@ function helloWorld() {
 }
 
 function PopulationDensity(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/population_density';
+  const baseurl = 'https://api.marl.io/satf/population_density';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(Number(value)); })
@@ -190,7 +190,7 @@ function PopulationDensity(latitude, longitude = false) {
 }
 
 function PopulationDensityBuffer(buffer_in_meters, latitude, longitude = false) {
-  const url = (buffer, lat, lng) => `https://marl.io/api/satf/population_density_buffer?lat=${lat}&lng=${lng}&buffer=${buffer}`;
+  const url = (buffer, lat, lng) => `https://api.marl.io/satf/population_density_buffer?lat=${lat}&lng=${lng}&buffer=${buffer}`;
   try {
     if (isValidWhatFreeWords(latitude)) {
       return What3WordsToLatLng(latitude).then((latlng) => {
@@ -235,7 +235,7 @@ function PopulationDensityBuffer(buffer_in_meters, latitude, longitude = false) 
 }
 
 function PopulationDensityWalk(minutes, latitude, longitude = false) {
-  const url = (buffer, lat, lng) => `https://marl.io/api/satf/population_density_walk?lat=${lat}&lng=${lng}&minutes=${buffer}`;
+  const url = (buffer, lat, lng) => `https://api.marl.io/satf/population_density_walk?lat=${lat}&lng=${lng}&minutes=${buffer}`;
   try {
     if (isValidWhatFreeWords(latitude)) {
       return What3WordsToLatLng(latitude).then((latlng) => {
@@ -280,7 +280,7 @@ function PopulationDensityWalk(minutes, latitude, longitude = false) {
 }
 
 function AdminLevel1(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/admin_level_1';
+  const baseurl = 'https://api.marl.io/satf/admin_level_1';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -289,7 +289,7 @@ function AdminLevel1(latitude, longitude = false) {
 }
 
 function AdminLevel2(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/admin_level_2';
+  const baseurl = 'https://api.marl.io/satf/admin_level_2';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -299,7 +299,7 @@ function AdminLevel2(latitude, longitude = false) {
 
 function AdminLevel2FuzzyLev(name) {
   return new Promise(((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/admin_level_2_fuzzy_lev?name=${name}`)
+    makeRequest('get', `https://api.marl.io/satf/admin_level_2_fuzzy_lev?name=${name}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   }));
@@ -307,7 +307,7 @@ function AdminLevel2FuzzyLev(name) {
 
 function AdminLevel2FuzzyTri(name) {
   return new Promise(((resolve, reject) => {
-    makeRequest('get', `https://marl.io/api/satf/admin_level_2_fuzzy_tri?name=${name}`)
+    makeRequest('get', `https://api.marl.io/satf/admin_level_2_fuzzy_tri?name=${name}`)
       .then((value) => { resolve(value); })
       .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
   }));
@@ -315,7 +315,7 @@ function AdminLevel2FuzzyTri(name) {
 
 
 function UrbanStatus(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/urban_status';
+  const baseurl = 'https://api.marl.io/satf/urban_status';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -325,7 +325,7 @@ function UrbanStatus(latitude, longitude = false) {
 
 
 function UrbanStatusSimple(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/urban_status_simple';
+  const baseurl = 'https://api.marl.io/satf/urban_status_simple';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -335,7 +335,7 @@ function UrbanStatusSimple(latitude, longitude = false) {
 
 
 function NearestPlace(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/nearest_placename';
+  const baseurl = 'https://api.marl.io/satf/nearest_placename';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -345,7 +345,7 @@ function NearestPlace(latitude, longitude = false) {
 
 
 function NearestPoi(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/nearest_poi';
+  const baseurl = 'https://api.marl.io/satf/nearest_poi';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -355,7 +355,7 @@ function NearestPoi(latitude, longitude = false) {
 
 
 function NearestBank(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/nearest_bank';
+  const baseurl = 'https://api.marl.io/satf/nearest_bank';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
@@ -365,7 +365,7 @@ function NearestBank(latitude, longitude = false) {
 
 
 function NearestBankDist(latitude, longitude = false) {
-  const baseurl = 'https://marl.io/api/satf/nearest_bank_distance';
+  const baseurl = 'https://api.marl.io/satf/nearest_bank_distance';
   return new Promise(((resolve, reject) => {
     getLatLngInfo(baseurl, latitude, longitude)
       .then((value) => { resolve(value); })
