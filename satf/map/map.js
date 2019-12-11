@@ -46,7 +46,9 @@ const map = L.map('map', {
   center: [5.6899537, -0.557727],
   zoom: 13,
   minZoom: 5,
-  maxZoom: 17,
+  minNativeZoom: 9,
+  maxZoom: 19,
+  maxNativeZoom: 18,
   layers: [osm],
 });
 
@@ -141,6 +143,11 @@ function addMarkers(themap, markername) {
         if (feature.properties) {
           layer.bindPopup(htmlTable(feature.properties));
         }
+      },
+
+      // Flip coords
+      coordsToLatLng(coords) {
+        return new L.LatLng(coords[0], coords[1]);
       },
     }).addTo(themap);
 
