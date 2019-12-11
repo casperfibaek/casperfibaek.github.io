@@ -45,7 +45,7 @@ const white = L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAE
 const map = L.map('map', {
   center: [51.505, -0.09],
   zoom: 13,
-  minZoom: 9,
+  minZoom: 5,
   maxZoom: 17,
   layers: [osm],
 });
@@ -131,7 +131,7 @@ function addMarkers(themap, markername) {
       fillOpacity: 0.8,
     };
 
-    L.geoJSON(geojson, {
+    const geojsonLayer = L.geoJSON(geojson, {
       pointToLayer(feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);
       },
@@ -140,7 +140,9 @@ function addMarkers(themap, markername) {
           layer.bindPopup(htmlTable(feature.properties));
         }
       },
-    }).addTo(map);
+    }).addTo(themap);
+
+    map.fitBounds(geojsonLayer.getBounds());
   } catch (err) {
     console.log(err);
   }
