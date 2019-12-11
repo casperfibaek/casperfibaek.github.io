@@ -1,4 +1,4 @@
-/* eslint-disable camelcase, no-underscore-dangle */
+/* eslint-disable camelcase, no-underscore-dangle, no-console */
 /* globals L, Office, idbKeyval, arrayToGeojson */
 
 function htmlTable(obj) {
@@ -107,17 +107,6 @@ const overlaymaps = {
   'PCA Texture NIR': tex_b08,
   'PCA Texture SWIR': tex_b12,
 };
-
-const title = L.control();
-title.onAdd = function (map) {
-  this._div = L.DomUtil.create('div', 'ctl title');
-  this.update();
-  return this._div;
-};
-title.update = function (props) {
-  this._div.innerHTML = 'Urban Proximity Study. Savings at the Frontiers';
-};
-title.addTo(map);
 
 L.control.layers(basemaps, overlaymaps, { collapsed: true }).addTo(map);
 
