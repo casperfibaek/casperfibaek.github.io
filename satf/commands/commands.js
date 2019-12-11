@@ -4,7 +4,7 @@ Office.onReady(() => {
   (async function startDB() {
     idbKeyval
       .set('hello', { cat: 'drives' })
-      .then(() => console.log('It worked!'))
+      // .then(() => console.log('It worked!'))
       .catch((err) => {
         console.log('It failed!', err);
       });

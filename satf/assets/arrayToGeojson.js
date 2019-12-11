@@ -272,7 +272,7 @@ function generateGeojson(geometry, attributeArray) {
 }
 
 
-function arrayToGeojson(eArr) {
+window.arrayToGeojson = function arrayToGeojson(eArr) {
   // Validate array
   if (!arrayIsValid(eArr)) { return false; }
 
