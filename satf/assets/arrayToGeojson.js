@@ -484,4 +484,4 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
   return generateGeojson(geometry, properties);
 
   // TODO: Add error messages
-}
+};

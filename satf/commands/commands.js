@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* globals Excel, Office, OfficeExtension, idbKeyval */
+
 // The Office.onReady command, even empty, is needed by office-js to work at all(?)
 
 Office.onReady(() => {
