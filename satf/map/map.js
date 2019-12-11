@@ -1,3 +1,22 @@
+/* eslint-disable camelcase, no-underscore-dangle */
+/* globals L, Office, idbKeyval, arrayToGeojson */
+
+function htmlTable(obj) {
+  let table = '<table class=""><tbody>';
+
+  const keys = Object.keys(obj);
+
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    const val = obj[key];
+
+    table += `<tr><td>${key}</td><td>${val}</td></tr>`;
+  }
+
+  table += '</tbody></table>';
+  return table;
+}
+
 if (localStorage.getItem('eventNumber') === null) {
   localStorage.setItem('eventNumber', '0');
 }
@@ -99,21 +118,47 @@ title.addTo(map);
 L.control.layers(basemaps, overlaymaps, { collapsed: true }).addTo(map);
 
 function addMarkers(themap, markername) {
-  const markersList = JSON.parse(localStorage.getItem(markername));
-  let markers = [];
-  if (typeof markersList[0][0] === 'string') {
-    markers = JSON.parse(localStorage.getItem(markername)).slice(1, -1);
-  } else {
-    markers = JSON.parse(localStorage.getItem(markername));
+  try {
+    const markerArray = JSON.parse(localStorage[markername]);
+    const geojson = arrayToGeojson(markerArray);
+
+    const geojsonMarkerOptions = {
+      radius: 8,
+      fillColor: '#ff7800',
+      color: '#000',
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8,
+    };
+
+    L.geoJSON(geojson, {
+      pointToLayer(feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+      },
+      onEachFeature(feature, layer) {
+        if (feature.properties) {
+          layer.bindPopup(htmlTable(feature.properties));
+        }
+      },
+    }).addTo(map);
+  } catch (err) {
+    console.log(err);
   }
+  // const markersList = JSON.parse(localStorage.getItem(markername));
+  // let markers = [];
+  // if (typeof markersList[0][0] === 'string') {
+  //   markers = JSON.parse(localStorage.getItem(markername)).slice(1, -1);
+  // } else {
+  //   markers = JSON.parse(localStorage.getItem(markername));
+  // }
 
-  const markerGroup = L.featureGroup().addTo(themap);
+  // const markerGroup = L.featureGroup().addTo(themap);
 
-  for (let i = 0; i < markers.length; i += 1) {
-    markerGroup.addLayer(L.circleMarker(markers[i]));
-  }
+  // for (let i = 0; i < markers.length; i += 1) {
+  //   markerGroup.addLayer(L.circleMarker(markers[i]));
+  // }
 
-  themap.fitBounds(markerGroup.getBounds());
+  // themap.fitBounds(markerGroup.getBounds());
 }
 
 Office.onReady().then(() => {
