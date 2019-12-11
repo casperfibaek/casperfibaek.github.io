@@ -279,6 +279,96 @@ function PopulationDensityWalk(minutes, latitude, longitude = false) {
   }
 }
 
+function PopulationDensityBike(minutes, latitude, longitude = false) {
+  const url = (buffer, lat, lng) => `https://api.marl.io/satf/population_density_bike?lat=${lat}&lng=${lng}&minutes=${buffer}`;
+  try {
+    if (isValidWhatFreeWords(latitude)) {
+      return What3WordsToLatLng(latitude).then((latlng) => {
+        const coords = JSON.parse(latlng);
+        const lat = coords[0];
+        const lng = coords[1];
+
+        return new Promise((resolve, reject) => {
+          makeRequest('get', url(minutes, lat, lng))
+            .then((value) => { resolve(Number(value)); })
+            .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+        });
+      });
+    }
+
+    if (isValidPluscode(latitude)) {
+      return PlusCodeToLatLng(latitude).then((latlng) => {
+        const coords = JSON.parse(latlng);
+        const lat = coords[0];
+        const lng = coords[1];
+
+        return new Promise((resolve, reject) => {
+          makeRequest('get', url(minutes, lat, lng))
+            .then((value) => { resolve(Number(value)); })
+            .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+        });
+      });
+    }
+
+    const lat = latitude;
+    const lng = longitude;
+
+    return new Promise((resolve, reject) => {
+      makeRequest('get', url(minutes, lat, lng))
+        .then((value) => { resolve(Number(value)); })
+        .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+    });
+  } catch (err) {
+    const error = new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err));
+    throw error;
+  }
+}
+
+function PopulationDensityCar(minutes, latitude, longitude = false) {
+  const url = (buffer, lat, lng) => `https://api.marl.io/satf/population_density_car?lat=${lat}&lng=${lng}&minutes=${buffer}`;
+  try {
+    if (isValidWhatFreeWords(latitude)) {
+      return What3WordsToLatLng(latitude).then((latlng) => {
+        const coords = JSON.parse(latlng);
+        const lat = coords[0];
+        const lng = coords[1];
+
+        return new Promise((resolve, reject) => {
+          makeRequest('get', url(minutes, lat, lng))
+            .then((value) => { resolve(Number(value)); })
+            .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+        });
+      });
+    }
+
+    if (isValidPluscode(latitude)) {
+      return PlusCodeToLatLng(latitude).then((latlng) => {
+        const coords = JSON.parse(latlng);
+        const lat = coords[0];
+        const lng = coords[1];
+
+        return new Promise((resolve, reject) => {
+          makeRequest('get', url(minutes, lat, lng))
+            .then((value) => { resolve(Number(value)); })
+            .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+        });
+      });
+    }
+
+    const lat = latitude;
+    const lng = longitude;
+
+    return new Promise((resolve, reject) => {
+      makeRequest('get', url(minutes, lat, lng))
+        .then((value) => { resolve(Number(value)); })
+        .catch((err) => { reject(new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err))); });
+    });
+  } catch (err) {
+    const error = new CustomFunctions.Error(CustomFunctions.ErrorCode.invalidValue, String(err));
+    throw error;
+  }
+}
+
 function AdminLevel1(latitude, longitude = false) {
   const baseurl = 'https://api.marl.io/satf/admin_level_1';
   return new Promise(((resolve, reject) => {
