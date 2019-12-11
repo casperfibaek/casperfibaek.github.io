@@ -43,12 +43,14 @@ const s2_wet = L.tileLayer('https://imap.niras.dk/proximity/s2_wet/{z}/{x}/{y}.p
 const white = L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==', { minZoom: 9, maxZoom: 15 });
 
 const map = L.map('map', {
-  center: [51.505, -0.09],
+  center: [5.6899537, -0.557727],
   zoom: 13,
   minZoom: 5,
   maxZoom: 17,
   layers: [osm],
 });
+
+window.map = map;
 
 L.control.scale().addTo(map);
 
