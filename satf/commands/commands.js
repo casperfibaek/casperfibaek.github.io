@@ -167,6 +167,7 @@ async function openDialogCONTACT(event) {
 async function openDialogMap(event) {
   const markers = await getSelectedCells();
   localStorage.setItem('markers', markers);
+  localStorage.setItem('geojson', JSON.stringify(arrayToGeojson(markers))); // eslint-disable-line
 
   Office.context.ui.displayDialogAsync(
     'https://marl.io/satf/map/map.html',
@@ -186,6 +187,7 @@ async function openDialogMap(event) {
 async function addMapData(event) {
   const markers = await getSelectedCells();
   localStorage.setItem('markers', markers);
+  localStorage.setItem('geojson', JSON.stringify(arrayToGeojson(markers))); // eslint-disable-line
 
   const localEventNumber = localStorage.getItem('eventNumber');
   if (localEventNumber === null) {
