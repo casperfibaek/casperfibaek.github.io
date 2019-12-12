@@ -299,7 +299,7 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
     selected.name = 'pluscodes';
     selected.col = foundHeaders.pluscode;
   } else if (typeof foundHeaders.what3words === 'number') {
-    selected.name = 'what4words';
+    selected.name = 'what3words';
     selected.col = foundHeaders.what3words;
   }
 
@@ -389,7 +389,6 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
 
     if (selected.amount === null) { return false; }
   }
-
 
   const validatedRows = [];
   const geometry = [];
