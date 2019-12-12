@@ -506,3 +506,152 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
 
   // TODO: Add error messages
 };
+
+
+const usedRanges = 'random_points_25!A1:J27';
+const selected1 = 'random_points_25!D:D';
+const selected2 = 'random_points_25!12:12';
+const selected3 = 'random_points_25!E31,random_points_25!14:14,random_points_25!15:15,random_points_25!19:19';
+
+function lettersToNumber(letters) {
+  const base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result = 0;
+  let j = letters.length - 1;
+
+  for (let i = 0; i < letters.length; i += 1, j -= 1) {
+    result += (base.length ** j) * (base.indexOf(letters[i]) + 1);
+  }
+
+  return result;
+}
+
+function numberToLetters(index) {
+  let dividend = index;
+  let name = '';
+  let modulo;
+  while (dividend > 0) {
+    modulo = (dividend - 1) % 26;
+    name = String.fromCharCode(65 + modulo) + name;
+    dividend = Math.round((dividend - modulo) / 26);
+  }
+  return name;
+}
+
+function getRange(str) {
+  return str.split('!')[1].split(':');
+}
+
+function getNumbers(str) {
+  return Number(str.replace(/[^0-9]/g, ''));
+}
+
+function getText(str) {
+  return str.replace(/[0-9]/g, '');
+}
+
+function isUnboundedRange(range) {
+  if (Number(range[0]) && Number(range[1])) {
+    return true;
+  } if (getText(range.join('')) === range.join('')) {
+    return true;
+  }
+
+  return false;
+}
+
+function isUnboundedRangeRowOrCol(range) {
+  if (Number(range[0]) && Number(range[1])) {
+    return 'row';
+  }
+  return 'col';
+}
+
+function getBounds(range) {
+  const bounds = [null, null, null, null]; // minLetter, minNumber, maxLetter, maxNumber
+
+  if (isUnboundedRange(range)) {
+    const type = isUnboundedRangeRowOrCol(range);
+    if (type === 'row') {
+      bounds[1] = getNumbers(range[0]);
+      bounds[3] = getNumbers(range[1]);
+    } else {
+      bounds[0] = lettersToNumber(getText(range[0]));
+      bounds[2] = lettersToNumber(getText(range[1]));
+    }
+  } else {
+    bounds[0] = lettersToNumber(getText(range[0]));
+    bounds[1] = getNumbers(range[0]);
+    bounds[2] = lettersToNumber(getText(range[1]));
+    bounds[3] = getNumbers(range[1]);
+  }
+
+  return bounds;
+}
+
+function isWithinRange(src, target) {
+  const srcRange = getRange(src);
+  const targetRange = getRange(target);
+
+  const srcBounds = getBounds(srcRange);
+  const targetBounds = getBounds(targetRange);
+
+  if (
+    (srcBounds[1] && srcBounds[3])
+  ) {
+    //
+  }
+}
+
+// TODO:
+
+// isWithinRange
+// isOverlapsRange
+// getIntersection
+// getExtration
+// mergeRanges
+// getValues and addresses from multiSelection
+
+
+function isWithinRangeOld(str, targetStr) {
+  const targetRange = getRange(targetStr);
+  const min = targetRange[0];
+  const max = targetRange[1];
+
+  const selectedRange = getRange(str);
+
+  const minLetter = lettersToNumber(getText(min));
+  const minNumber = getNumbers(min);
+  const maxLetter = lettersToNumber(getText(max));
+  const maxNumber = getNumbers(max);
+
+  if (isUnboundedRange(selectedRange)) {
+    const type = isUnboundedRangeRowOrCol(selectedRange);
+    if (type === 'row') {
+      if ((getNumbers(selectedRange[0]) >= minNumber) && (getNumbers(selectedRange[1]) <= maxNumber)) {
+        return true;
+      }
+      return false;
+    }
+    if ((lettersToNumber(getText(selectedRange[0])) >= minLetter) && (lettersToNumber(getText(selectedRange[1])) <= maxLetter)) {
+      return true;
+    }
+    return false;
+  }
+  const boundedMin = selectedRange[0];
+  const boundedMax = selectedRange[1];
+
+  const boundedMinLetter = lettersToNumber(getText(boundedMin));
+  const boundedMinNumber = getNumbers(boundedMin);
+  const boundedMaxLetter = lettersToNumber(getText(boundedMax));
+  const boundedMaxNumber = getNumbers(boundedMax);
+
+  if (
+    (boundedMinNumber >= minNumber)
+      && (boundedMaxNumber <= maxNumber)
+      && (boundedMinLetter >= minLetter)
+      && (boundedMaxLetter <= maxLetter)) {
+    return true;
+  }
+
+  return false;
+}
