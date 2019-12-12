@@ -1,4 +1,4 @@
-/* eslint-disable no-continue, max-len, no-console */
+/* eslint-disable no-continue, max-len, no-console, no-underscore-dangle */
 /* globals pluscodes, WhatFreeWords */
 
 
@@ -429,8 +429,15 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
         ]);
 
         const rowProperies = {};
-        for (let j = 0; j < header.length; j += 1) {
-          rowProperies[header[j]] = arr[i][j];
+        if (foundHeaders.any) {
+          for (let j = 0; j < header.length; j += 1) {
+            rowProperies[header[j]] = arr[i][j];
+          }
+        } else {
+          rowProperies._data = [];
+          for (let j = 0; j < header.length; j += 1) {
+            rowProperies._data.push(arr[i][j]);
+          }
         }
         properties.push(rowProperies);
       }
@@ -447,9 +454,17 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
           geometry.push([decoded.latitudeCenter, decoded.longitudeCenter]);
 
           const rowProperies = {};
-          for (let j = 0; j < header.length; j += 1) {
-            rowProperies[header[j]] = arr[row][j];
+          if (foundHeaders.any) {
+            for (let j = 0; j < header.length; j += 1) {
+              rowProperies[header[j]] = arr[row][j];
+            }
+          } else {
+            rowProperies._data = [];
+            for (let j = 0; j < header.length; j += 1) {
+              rowProperies._data.push(arr[row][j]);
+            }
           }
+
           properties.push(rowProperies);
         }
       }
@@ -466,8 +481,15 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
           geometry.push(decoded);
 
           const rowProperies = {};
-          for (let j = 0; j < header.length; j += 1) {
-            rowProperies[header[j]] = arr[row][j];
+          if (foundHeaders.any) {
+            for (let j = 0; j < header.length; j += 1) {
+              rowProperies[header[j]] = arr[row][j];
+            }
+          } else {
+            rowProperies._data = [];
+            for (let j = 0; j < header.length; j += 1) {
+              rowProperies._data.push(arr[row][j]);
+            }
           }
           properties.push(rowProperies);
         }
