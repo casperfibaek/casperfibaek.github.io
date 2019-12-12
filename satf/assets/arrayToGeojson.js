@@ -212,7 +212,7 @@ function removeInvalidRowsAndCols(arr) {
       if (!validCols[col]) { continue; }
 
       const val = arr[row][col];
-      validatedArray[row].push(val);
+      validatedArray[validatedArray.length - 1].push(val);
     }
   }
 
