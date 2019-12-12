@@ -1,4 +1,4 @@
-/* eslint-disable no-continue, max-len */
+/* eslint-disable no-continue, max-len, no-console */
 /* globals pluscodes, WhatFreeWords */
 
 
@@ -402,14 +402,14 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
     const validLongitudes = new Array(arr.length - 1).fill(false);
 
     for (let col = 0; col < header.length; col += 1) {
-      if (col !== foundHeaders.latitude && col !== foundHeaders.longitude) { continue; }
+      if (col !== selected.col[0] && col !== selected.col[1]) { continue; }
       for (let row = 0; row < arr.length; row += 1) {
         const val = arr[row][col];
-        if (col === foundHeaders.latitude) {
+        if (col === selected.col[0]) {
           if (valid.isValidLatitude(val)) {
             validLatitudes[row] = true;
           }
-        } else if (col === foundHeaders.longitude) {
+        } else if (col === selected.col[1]) {
           if (valid.isValidLongitude(val)) {
             validLongitudes[row] = true;
           }
@@ -424,8 +424,8 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
       if (validLat && validLng) {
         validatedRows.push(arr[i]);
         geometry.push([
-          Number(arr[i][foundHeaders.latitude]),
-          Number(arr[i][foundHeaders.longitude]),
+          Number(arr[i][selected.col[0]]),
+          Number(arr[i][selected.col[1]]),
         ]);
 
         const rowProperies = {};
@@ -437,49 +437,49 @@ window.arrayToGeojson = function arrayToGeojson(eArr) {
     }
   } else if (selected.name === 'pluscodes') {
     for (let col = 0; col < header.length; col += 1) {
-      if (col !== foundHeaders.pluscode) { continue; }
+      if (col !== selected.col) { continue; }
       for (let row = 0; row < arr.length; row += 1) {
         const val = arr[row][col];
-        if (col === foundHeaders.pluscode) {
-          if (valid.isValidPluscode(val)) {
-            validatedRows.push(arr[row]);
+        if (valid.isValidPluscode(val)) {
+          validatedRows.push(arr[row]);
 
-            const decoded = pluscodes.decode(val);
-            geometry.push([decoded.latitudeCenter, decoded.longitudeCenter]);
+          const decoded = pluscodes.decode(val);
+          geometry.push([decoded.latitudeCenter, decoded.longitudeCenter]);
 
-            const rowProperies = {};
-            for (let j = 0; j < header.length; j += 1) {
-              rowProperies[header[j]] = arr[row][j];
-            }
-            properties.push(rowProperies);
+          const rowProperies = {};
+          for (let j = 0; j < header.length; j += 1) {
+            rowProperies[header[j]] = arr[row][j];
           }
+          properties.push(rowProperies);
         }
       }
     }
   } else if (selected.name === 'what3words') {
     for (let col = 0; col < header.length; col += 1) {
-      if (col !== foundHeaders.what3words) { continue; }
+      if (col !== selected.col) { continue; }
       for (let row = 0; row < arr.length; row += 1) {
         const val = arr[row][col];
-        if (col === foundHeaders.what3words) {
-          if (valid.isValidWhatFreeWords(val)) {
-            validatedRows.push(arr[row]);
+        if (valid.isValidWhatFreeWords(val)) {
+          validatedRows.push(arr[row]);
 
-            const decoded = WhatFreeWords.words2latlon(val);
-            geometry.push(decoded);
+          const decoded = WhatFreeWords.words2latlon(val);
+          geometry.push(decoded);
 
-            const rowProperies = {};
-            for (let j = 0; j < header.length; j += 1) {
-              rowProperies[header[j]] = arr[row][j];
-            }
-            properties.push(rowProperies);
+          const rowProperies = {};
+          for (let j = 0; j < header.length; j += 1) {
+            rowProperies[header[j]] = arr[row][j];
           }
+          properties.push(rowProperies);
         }
       }
     }
   }
 
   if (validatedRows === 0) { return false; }
+
+  const geojson = generateGeojson(geometry, properties);
+
+  if (geojson.features.length === 0) { return false; }
 
   return generateGeojson(geometry, properties);
 
